@@ -3,29 +3,49 @@ title: Example Guide
 description: A guide in my new Starlight docs site.
 ---
 
-In the following guide I will refer to the decalex app as decalex, and the knolyx app as knolyx.
+!!!! These api's should be called with a per organization api key.
+To create one with the master api key:
+### POST {{url}}/public/api/v1/organization/api-key
+```
+{
+    "tenantId": "107", // org id
+    "projectId": "b2t-107", // recommend - b2t-{orgId}
+    "permissions": [
+        "USER_PROVISION",
+        "WORKGROUP_ADD_MEMBER",
+        "WORKGROUP_REMOVE_MEMBER",
+        "WORKGROUP_LIST",
+        "COURSE_LIST",
+        "COURSE_GET",
+        "WEBHOOK_MANAGE",
+        "BUSINESS_RULE_MANAGE"
+    ]
+}
+```
 
-# Flow
-1. -> An admin creates a course in decalex;
-2. -> An admin creates a course in knolyx;
-(are steps 1 and 2 synchronised in any way?)
-_Decalex will need to keep the knolyx course id for later referencing. It can be found in the navbar clicking on a knolyx course (the link is of format `decalex.knolyx.com/courses/{courseId}`_
-
-3. -> An admin will assign a course in decalex to a student;
-_Decalex will use the user (1.3) api to create the user in knolyx. Then it will use the business rule (1.4) api to register the user to a "business rule" which will give him acces in knolyx._
-
-4. -> A student click on the assigned course, the student is redirected on knolyx;
-_Decalex will redirect to a url in the form of `decalex.knolyx.com/courses/{knolyxCourseId}`. If single sign-on is setup, the user will be auto authenticated as long as the session is not expired._
-
-6. -> The student completes the course in knolyx;
-
-7. -> The course is marked as completed in decalex.
-_Decalex will use the webhook (1.1) api to listen to course completed events to mark the course as finished for the user. Note: If the same student is later assigned the same course in knolyx, it will not resent the course completed event, as it's already finished._
+returned:
+```
+{
+    "id": 9,
+    "projectId": "b2t-107",
+    "apiKey": "8905fb06a19144d184b041a2efd8f6ac", // only returned once
+    "tenantId": 107,
+    "permissions": [
+        "USER_PROVISION",
+        "WORKGROUP_ADD_MEMBER",
+        "WORKGROUP_REMOVE_MEMBER",
+        "WORKGROUP_LIST",
+        "COURSE_LIST",
+        "COURSE_GET",
+        "WEBHOOK_MANAGE",
+        "BUSINESS_RULE_MANAGE"
+    ]
+}
+```
 
 # Technical Details
 
 ## 1. Public API
-The base url for all public API's is `https://decalex.knolyx.com/api`. For testing proposes, `https://qa-decalex.knolyx.com/api` can be used. A full set of credentials will be offered besides this document.
 
 ### 1.0. Authentication
 To authenticate, every request should send two headers: `X-Project-Id` and `X-Api-Key`.
@@ -43,11 +63,11 @@ X-Project-Id: {{projectId}}
   "securityToken": "token-generated-client-side"
 }
 ```
-!! The security token will be created client side and passed to the create webhook api. It will be sent on any webhook calls made by knolyx and it can be found in the header "X-Webhook-Security-Token". Decalex should check every time that the token is the correct one. !!
+!! The security token will be created client side and passed to the create webhook api. It will be sent on any webhook calls made by knolyx and it can be found in the header "X-Webhook-Security-Token". AdminSite should check every time that the token is the correct one. !!
 
-On create, an event of type PING will be send to decalex to validate that the connection is good. Knolyx will only accept a https url that does not point to a localhost app. To test in development we recommend a local reverse proxy like ngrok / or deploying to a network accessible dev environment.
+On create, an event of type PING will be send to AdminSite to validate that the connection is good. Knolyx will only accept a https url that does not point to a localhost app. To test in development we recommend a local reverse proxy like ngrok / or deploying to a network accessible dev environment.
 
-The ping event will have a json like: 
+The ping event will have a json like:
 ```
 {
     "id": "af46ec07-de79-40b5-916c-0058b54b2d2b", // unique id, messages with the same id should be ignored
@@ -110,11 +130,11 @@ The default role assign is an existing STUDENT role
 PUT {{baseURL}}/public/api/v1/user/provision
 
 {
-  "firstName": "firstName", // required
-  "lastName": "lastName", // required
-  "email": "email", // required
-  "gender": "MALE | FEMALE | NON_BINARY" // default to NON_BINARY,
-  "disableWelcomeEmail": true // always set to true, if not will send welcome message with username and password to student
+"firstName": "firstName", // required
+"lastName": "lastName", // required
+"email": "email", // required
+"gender": "MALE | FEMALE | NON_BINARY" // default to NON_BINARY,
+"disableWelcomeEmail": true // always set to true, if not will send welcome message with username and password to student
 }
 
 returns a json with the id and name of the user created.
@@ -133,7 +153,7 @@ Example:
   {
     "id": 2296,
     "name": "Rule name",
-    "type": "PUBLIC | PRIVATE", // for decalex use case, always private. !!!Public will give access to all students on knolyx
+    "type": "PUBLIC | PRIVATE", // for AdminSite use case, always private. !!!Public will give access to all students on knolyx
     "startDateTime": "2020-05-06 21:00:00", // start date and end date in UTC timezone with format: year-month-day hour:minutes
     "endDateTime": "2022-12-30 22:00:00", // start date and end date in UTC timezone with format: year-month-day hour:minutes
     "restrictions": {
@@ -160,23 +180,23 @@ The post will apply the changes in rules.
 
 ```
 [
-  {
-    "id": 2296,
-    "name": "rule name modified",
-    "type": "PRIVATE",
-    "startDateTime": "2020-05-06 21:00:00",
-    "endDateTime": "2022-12-30 22:00:00",
-    "restrictions": {
-      "minimumTime": false,
-      "browseOrder": "anyOrder"
-    },
-    "associations": {
-      "USER": [
-        24792,
-        24793 // user removed from here
-      ]
-    }
-  }
+{
+"id": 2296,
+"name": "rule name modified",
+"type": "PRIVATE",
+"startDateTime": "2020-05-06 21:00:00",
+"endDateTime": "2022-12-30 22:00:00",
+"restrictions": {
+"minimumTime": false,
+"browseOrder": "anyOrder"
+},
+"associations": {
+"USER": [
+24792,
+24793 // user removed from here
+]
+}
+}
 ]
 ```
 If the id is present in the rule, the api will modify the existing rule. If no id is given, a new rule is created.
@@ -186,7 +206,7 @@ If a rules is removed from the list, a POST action without it will delete it.
 For SSO integration knolyx will need:
 1. a client id
 2. client secret
-3. redirect url set in the sso client as: `decalex.knolyx.com/sso_redirect`
+3. redirect url set in the sso client as: `subdomain.knolyx.com/sso_redirect`
 4. token uri
 5. issuer uri
 6. sso provider name

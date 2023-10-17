@@ -8,7 +8,7 @@ Base url: https://app.knolyx.net/api
 X-PROJECT-ID=production-admin-klx
 X-API-KEY=48dfbde6e8fb4dc98073d4aac1419aba
 
-On each request, X-PROJECT-ID and X-API-KEY should be sent as header 
+On each request, X-PROJECT-ID and X-API-KEY should be sent as header
 for authentication
 
 to be brief: {{url}} = base url

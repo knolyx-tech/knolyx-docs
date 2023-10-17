@@ -20,14 +20,13 @@ export default defineConfig({
 				{
 					label: 'Guides',
 					items: [
-						// Each item here is one entry in the navigation menu.
 						{ label: 'Getting Started', link: '/guides/getting-started/' },
-						{ label: 'Example Guide', link: '/guides/example/' },
+						{ label: 'SSO', link: '/guides/sso/' },
+						{ label: 'Course API', link: '/guides/course/' },
+						{ label: 'Rules API', link: '/guides/rules/' },
+						{ label: 'Theming API', link: '/guides/theme/' },
+						{ label: 'Payment Integration', link: '/guides/payment-integration' }
 					],
-				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
 				},
 			],
 		}),
