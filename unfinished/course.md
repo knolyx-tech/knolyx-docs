@@ -3,6 +3,17 @@ title: Example Guide
 description: A guide in my new Starlight docs site.
 ---
 
+### 1.2. Course API
+**Get course list paged**
+`GET {{baseURL}}/public/api/v1/course?pagination.page=0&pagination.size=20`
+
+**Get course image**
+`GET {{baseURL}}/public/api/v1/course/{{courseId}}/image`
+
+
+### Get one course
+`GET {{baseURL}}/public/api/v1/course/{{courseId}}`
+
 !!!! These api's should be called with a per organization api key.
 To create one with the master api key:
 ### POST {{url}}/public/api/v1/organization/api-key
@@ -97,21 +108,6 @@ The course completed event will have a json like:
 }
 ```
 
-**Get all**
-`GET {{baseURL}}/public/api/v1/webhook`
-
-**Get one**
-`GET {{baseURL}}/public/api/v1/webhook/{{wehbookId}}`
-
-**Delete**
-`DELETE {{baseURL}}/public/api/v1/webhook/{{wehbookId}}`
-
-**Ping all**
-`POST {{baseURL}}/public/api/v1/webhook/ping`
-
-**Ping one**
-`POST {{baseURL}}/public/api/v1/webhook/{{wehbookId}}/ping`
-
 ### 1.2. Course API
 **Get course list paged**
 `GET {{baseURL}}/public/api/v1/course?pagination.page=0&pagination.size=20`
@@ -122,24 +118,6 @@ The course completed event will have a json like:
 
 ### Get one course
 `GET {{baseURL}}/public/api/v1/course/{{courseId}}`
-
-### 1.3. User API
-The default role assign is an existing STUDENT role
-
-**Provision user - if already exists, nothing happens**
-PUT {{baseURL}}/public/api/v1/user/provision
-
-{
-"firstName": "firstName", // required
-"lastName": "lastName", // required
-"email": "email", // required
-"gender": "MALE | FEMALE | NON_BINARY" // default to NON_BINARY,
-"disableWelcomeEmail": true // always set to true, if not will send welcome message with username and password to student
-}
-
-returns a json with the id and name of the user created.
-
-!! Note: SSO authentication automatically creates the user in knolyx after login, but to set the business rule that gives acces to a course ahead of student login, the userId must be known.!!
 
 
 ### 1.4. Business rule API
@@ -201,13 +179,3 @@ The post will apply the changes in rules.
 ```
 If the id is present in the rule, the api will modify the existing rule. If no id is given, a new rule is created.
 If a rules is removed from the list, a POST action without it will delete it.
-
-## 2 SSO integration
-For SSO integration knolyx will need:
-1. a client id
-2. client secret
-3. redirect url set in the sso client as: `subdomain.knolyx.com/sso_redirect`
-4. token uri
-5. issuer uri
-6. sso provider name
-7. SSO TYPE (oauth2 or openId connect- only oauth2 is fully supported at the moment)

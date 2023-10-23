@@ -65,3 +65,13 @@ example response:
 Please announce me if extra info is needed.
 
 After creating sso, at login, an account with the admin email should be created. It will have all the roles in the org.
+
+## 2 SSO integration
+For SSO integration knolyx will need:
+1. a client id
+2. client secret
+3. redirect url set in the sso client as: `platform.knolyx.com/sso_redirect`
+4. token uri
+5. issuer uri
+6. sso provider name
+7. SSO TYPE (oauth2 or openId connect- only oauth2 is fully supported at the moment)
