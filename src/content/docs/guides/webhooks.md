@@ -98,27 +98,6 @@ The course payment received event will have a body like:
        "course": {
           "id": {{course-id-as-long-value}},
           "name": "{{completed-course-name}}",
-       },
-       "payment": {
-          "price": {{price-in-lowest-available-currency}},
-          "currency: {{currency-format}},
-          "customer": {
-            "email": {{email}},
-            "name": {{fullName}},
-            "country": {{country}},
-            "addressLine1": {{addr1}},
-            "addressLine2": {{addr2}}, // optional
-            "city": {{city}},
-            "postalCode": {{postalCode}},
-            "province": {{province}},
-            // can be null
-            "company": {
-              "name": {{name}},
-              "cui": {{cui}},
-              "j": {{commerce registry number}},
-              "iban": {{iban}}
-            }
-          }
        }
     }
 }
