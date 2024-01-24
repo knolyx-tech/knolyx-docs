@@ -51,6 +51,12 @@ export default defineConfig({
 						// { label: 'Payment Integration', link: '/guides/payment-integration' }
 					],
 				},
+				{
+					label: 'Scenarios',
+					items: [
+						{ label: 'External payment integration', link: '/scenarios/external-payment-integration/' },
+					]
+				}
 			],
 		}),
 	],
