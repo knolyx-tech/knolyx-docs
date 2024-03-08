@@ -97,7 +97,28 @@ The course payment received event will have a body like:
         },
        "course": {
           "id": {{course-id-as-long-value}},
-          "name": "{{completed-course-name}}",
+          "name": "{{course-name}}",
+       }
+    }
+}
+```
+
+**BUNDLE_PAYMENT_RECEIVED** <br />
+The bundle payment received event will have a body like:
+``` json
+{
+    "id": "af46ec03-de79-40b5-916c-0058b54b2d2b",
+    "type": "BUNDLE_PAYMENT_RECEIVED",
+    "data": {
+        "user": {
+          "id": {{user-id-as-long-value}},
+          "name": "{{student-name}}",
+          "email": "{{student-email}}"
+        },
+       "bundle": {
+          "id": {{bundle-id-as-long-value}},
+          "slug": {{bundle-slug-as-string-value}},
+          "name": "{{bundle-name}}",
        }
     }
 }
