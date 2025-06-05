@@ -45,6 +45,7 @@ export default defineConfig({
 						{ label: 'Getting Started', link: '/guides/getting-started/' },
 						// { label: 'SSO', link: '/guides/sso/' },
 						{ label: 'Webhooks', link: '/guides/webhooks/' },
+						{ label: 'Event API', link: '/guides/event/' },
 						// { label: 'Course API', link: '/guides/course/' },
 						// { label: 'Rules API', link: '/guides/rules/' },
 						// { label: 'Theming API', link: '/guides/theme/' },
@@ -55,6 +56,7 @@ export default defineConfig({
 					label: 'Scenarios',
 					items: [
 						{ label: 'External payment integration', link: '/scenarios/external-payment-integration/' },
+						{ label: 'Event Registration', link: '/scenarios/event-registration/' }
 					]
 				}
 			],
