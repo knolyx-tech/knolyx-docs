@@ -53,4 +53,4 @@ Using the endpoint `GET /public/api/v1/key` you can get your current api key per
 
 # Testing the API
 
-The api can be tested using [openapi](https://api.knolyx.com/swagger-ui.html).
+The api can be tested using [openapi](https://api.knolyx.com/swagger-ui/index.html?urls.primaryName=public-api).
